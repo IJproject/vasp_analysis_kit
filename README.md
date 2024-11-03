@@ -1,28 +1,29 @@
-# VASPでの計算結果解析用Pythonスクリプト
+# Python scripts for analysing the results of VASP calculations
 
-## 前提条件
+## Prerequisites
 
-## スクリプト一覧
+## List of Scripts
 
-### テキストファイルの生成
+### Generating Text File
 
-| ファイル名 | 使用ファイル | 機能 |
-| :--- | :--- | :--- |
-| convert_band.py | EIGENVAL <br> KPOINTS | バンド図作成用のテキストファイルを生成 |
-| convert_dos.py | vaspout.h5 | DOS図作成用のテキストファイルを生成 |
-| convert_eels.py | OUTCAR | EELS（光吸収）スペクトル図作成用のテキストファイルを生成 |
+| File Name            | Required Files        | Function                                                               |
+| :------------------- | :-------------------- | :--------------------------------------------------------------------- |
+| convert_band.py      | EIGENVAL <br> KPOINTS | Generating a text file for plotting band structure                     |
+| convert_dos.py       | vaspout.h5            | Generating a text file for plotting DOS                                |
+| convert_workfunc.py  | vaspout.h5            | Generating a text file for plotting work function                      |
+| convert_eels.py      | OUTCAR                | Generating a text file for plotting EELS (optical absorption) spectrum |
 
-### テキストファイルの統合
+### Merging Text File
 
-| ファイル名 | 使用ファイルの作成スクリプト | 機能 |
-| :--- | :--- | :--- |
-| merge_eels.py | convert_eels | gnuplotで複数の結果を重ねて描画させるため、テキストファイルを結合 |
+| File Name     | Script (Generating Text File) | Function                                        |
+| :------------ | :---------------------------- | :---------------------------------------------- |
+| merge_eels.py | convert_eels                  | Merging text files to display on the same graph |
 
-### グラフのプロット
+### Plotting Graphs
 
-| ファイル名 | 使用ファイルの作成スクリプト | 機能 |
-| :--- | :--- | :--- |
-| plot_band.py | convert_band.py | バンド図を作成 |
-| plot_dos.py | convert_dos.py | DOS図を作成 |
-| plot_workfunc.py | 根性.py | 仕事関数図を作成 |
-| plot_eels.py | convert_eels.py | EELS（光吸収）スペクトル図を作成 |
+| File Name        | Script (Generating Text File) | Function                                       |
+| :--------------- | :---------------------------- | :--------------------------------------------- |
+| plot_band.py     | convert_band.py               | Ploting the band structure                     |
+| plot_dos.py      | convert_dos.py                | Ploting the DOS                                |
+| plot_workfunc.py | convert_workfunc.py           | Ploting the work function                      |
+| plot_eels.py     | convert_eels.py               | Ploting the EELS (optical absorption) spectrum |
