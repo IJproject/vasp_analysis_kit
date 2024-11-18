@@ -20,12 +20,6 @@ parser.add_argument(
     help="出力するファイル名を指定してください。 例) eels.png",
 )
 parser.add_argument(
-    "-r",
-    "--reference",
-    type=str,
-    help="文献値を含むファイル名を指定してください。 例) eels-ref.txt",
-)
-parser.add_argument(
     "-x",
     "--xrange",
     type=float,
@@ -43,7 +37,6 @@ parser.add_argument(
 args = parser.parse_args()
 inputfile = args.inputfile if args.inputfile is not None else ""
 outputfile = args.outputfile if args.outputfile is not None else ""
-reference = args.reference if args.reference is not None else ""
 xrange = [args.xrange[0], args.xrange[1]] if args.xrange is not None else None
 yrange = [args.yrange[0], args.yrange[1]] if args.yrange is not None else None
 
@@ -61,57 +54,61 @@ elif "." in outputfile:
 else:
     outputfile = outputfile + ".png"
 
-if len(reference) == 0:
-    reference = "eels-ref.txt"
-elif "." in reference:
-    reference = reference.split(".")[0] + ".txt"
-else:
-    reference = reference + ".txt"
-
 # ファイルの読み込み
-with open(inputfile, "r") as f:
-    input_lines = f.readlines()
-with open(reference, "r") as f:
-    ref_lines = f.readlines()
+with open(inputfile, "r") as file:
+    lines = file.readlines()
+    empty_line_count = sum(1 for line in lines if line == "\n")
 
-# データの整形
-labels = input_lines[0].strip().split()
-input_data = np.loadtxt(input_lines[2:], unpack=True)
-input_x = input_data[0]
-input_y = input_data[1:]
-input_y = np.array([y / np.max(y) if np.max(y) != 0 else y for y in input_y])
-input_plots = [
-    (
-        input_x,
-        y,
-        {
-            "with": "lines",
-            "legend": labels[i + 1] if i + 1 < len(labels) else f"Data {i+1}",
-        },
-    )
-    for i, y in enumerate(input_y)
-]
+    # データの書き出し
+    label = ""
+    plots = []
+    x = []
+    y = []
+    for line in lines:
+        line = line.split()
+        if line == []:
+            print(1)
+            plots.append(
+                (
+                    np.array(x),
+                    np.array(y) / max(y),
+                    {"with": "lines lw 3", "legend": label},
+                )
+            )
+            x = []
+            y = []
+        elif len(line) == 1:
+            continue
+        elif len(line) == 2 and line[0] == "energies":
+            label = line[1]
+        else:
+            x.append(float(line[0]))
+            y.append(float(line[1]))
 
-ref_data = np.loadtxt(ref_lines[0:], unpack=True)
-ref_x = ref_data[0]
-ref_y = ref_data[1]
-ref_plots = [ref_x, ref_y]
+print(plots)
 
 gp.plot(
-    *input_plots,
-    (*ref_plots, {"with": "lines", "legend": "Experiment(reference)"}),
-    xlabel="Energy loss (eV)",
-    ylabel="Intensit (percentage of maximum intensity)",
+    *[(x, y, setting) for x, y, setting in plots],
     xrange=xrange,
     yrange=yrange,
-    terminal=f"png size 800,600",
+    terminal=f"png size 1200,900",
     output=outputfile,
     _set=[
+        "xtics font 'Times New Roman,20' offset 0,-1",
+        "noytics",
+        "xlabel 'Energy Loss  (eV)' font 'Times New Roman,24' offset 0,-2",
+        "ylabel 'Intensity (percentage of maximum intensity)' font 'Times New Roman,24' offset -1,0",
+        "lmargin 8",
+        "rmargin 4",
+        "tmargin 2",
+        "bmargin 6",
         "key left top",
-        "key box",
         "key reverse",
+        "key font 'Times New Roman,18'",
         "key Left",
-        "key spacing 1.7",
+        "key spacing 1.4",
         "nogrid",
     ],
 )
+
+print(f"処理が完了しました。出力は '{outputfile}' に保存されました。")

@@ -74,11 +74,21 @@ for i, y in enumerate(y_values):
 
 gp.plot(
     *plots,
-    xlabel="Energy(VBM=0)",
-    ylabel="DOS",
     xrange=xrange,
     yrange=yrange,
-    terminal=f"png size 800,600",
+    terminal="png size 1200,900",
     output=outputfile,
-    _with="lines",
+    _with="linesfermi_energy",
+    _set=[
+        "xtics font 'Times New Roman,20' offset 0,-1",
+        "noytics",
+        "xlabel 'E - E_{VBM}  (eV)' font 'Times New Roman,24' offset 0,-2",
+        "ylabel 'DOS  (eV^{-1})' font 'Times New Roman,24' offset -1,0",
+        "lmargin 8",
+        "rmargin 4",
+        "tmargin 2",
+        "bmargin 6",
+    ],
 )
+
+print(f"処理が完了しました。出力は '{outputfile}' に保存されました。")
