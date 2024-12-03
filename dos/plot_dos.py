@@ -78,7 +78,7 @@ gp.plot(
     yrange=yrange,
     terminal="png size 1200,900",
     output=outputfile,
-    _with="linesfermi_energy",
+    _with="lines",
     _set=[
         "xtics font 'Times New Roman,20' offset 0,-1",
         "noytics",
