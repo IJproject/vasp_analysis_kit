@@ -5,6 +5,10 @@ import os
 import sys
 import glob
 
+# マジックナンバー
+layer_thickness = 9.5466667
+layer_count = 6
+
 parser = argparse.ArgumentParser(
     description="取得したい情報をオプションで指定してください。"
 )
@@ -15,6 +19,13 @@ parser.add_argument(
     help="（必須）データが入ったフォルダ名を指定してください。 例) ldos_data",
 )
 parser.add_argument(
+    "-l",
+    "--layers",
+    type=int,
+    nargs="*",
+    help="（必須）何番目の層のLDOSを取得したいのかを指定してください。 例) 4",
+)
+parser.add_argument(
     "-o",
     "--outputfile",
     type=str,
@@ -23,6 +34,7 @@ parser.add_argument(
 # 引数を解析
 args = parser.parse_args()
 directory = args.directory if args.directory is not None else ""
+layers = args.layers if args.layers is not None else []
 outputfile = args.outputfile if args.outputfile is not None else ""
 
 if len(directory) == 0:
@@ -30,6 +42,10 @@ if len(directory) == 0:
     sys.exit(1)
 if not os.path.exists(directory):
     print(f"指定されたフォルダ '{directory}' が見つかりません。")
+    sys.exit(1)
+
+if layers == []:
+    print("層番号をオプションで指定してください。")
     sys.exit(1)
 
 if len(outputfile) == 0:
@@ -65,46 +81,63 @@ files = sorted(glob.glob(file_pattern))
 # データを読み込む
 tmp_data = []
 max_intensity = 0
+tmp_data = [[] for _ in layers]
+data = []
 
 for file in files:
     with open(file, "r") as f:
         lines = f.readlines()
         line_count = len(lines)
-        for line in lines:
-            x, y, intensity = line.split()
-            max_intensity = max(max_intensity, float(intensity))
-            tmp_data.append((float(x), float(y), float(intensity)))
+        for layer_index, layer in enumerate(layers):
+            min_layer_count = int(
+                line_count * layer_thickness * (layer - 1) / lattice_c_length
+            )
+            max_layer_count = int(
+                line_count * layer_thickness * layer / lattice_c_length
+            )
+            sum_intensity = 0
+            for index, line in enumerate(lines):
+                position, energy, intensity = line.split()
+                if min_layer_count <= index and index <= max_layer_count:
+                    sum_intensity += float(intensity)
+                elif index == max_layer_count + 1:
+                    tmp_data[layer_index].append((float(energy), float(sum_intensity)))
+                    max_intensity = max(max_intensity, float(sum_intensity))
+                    sum_intensity = 0
 
-# プロット用データに変換
-data = np.array(tmp_data)
-x = data[:, 0] * lattice_c_length / line_count
-y = data[:, 1] - fermi_energy
-intensity = data[:, 2] / max_intensity
+# データの処理
+for index, item in enumerate(tmp_data):
+    processed_tmp_data = np.array(item)
+    energy = processed_tmp_data[:, 0] - fermi_energy
+    intensity = (
+        processed_tmp_data[:, 1] / max_intensity
+        if max_intensity != 0
+        else 0
+    )
+    data.append((energy, intensity))
 
-# プロット
-gp3 = gp.gnuplotlib(
-    _3d=True,
+gp.plot(
+    *[
+        (energy, intensity, {"with": "lines lw 3", "legend": f"Layer {layers[i]}"})
+        for i, (energy, intensity) in enumerate(data)
+    ],
     terminal="png size 1200,900",
     output=outputfile,
-)
-gp3.plot(
-    (x, y, intensity, {"with": "points palette", "using": "1:2:3"}),
-    xrange=[0, lattice_c_length],
-    yrange=[emin, emax],
-    zrange=[0, 1],
+    yrange=[0, 1],
+    xrange=[emin, emax],
+    _with="lines",
     _set=[
         "xtics font 'Times New Roman,20' offset 0,-1",
-        "ytics font 'Times New Roman,20'",
-        "xlabel 'z (\305)' font 'Times New Roman,24' offset 0,-2.5",
-        "ylabel 'E - E_F  (eV)' font 'Times New Roman,24' offset -4,0",
-        "lmargin 12",
+        "noytics",
+        "xlabel 'E - E_{F}  (eV)' font 'Times New Roman,24' offset 0,-2",
+        "ylabel 'Intensity' font 'Times New Roman,24' offset -1,0",
+        "lmargin 8",
         "rmargin 4",
         "tmargin 2",
-        "bmargin 4",
-        # "nogrid",
-        "palette defined (0 '0xffffff', 1 '0xff0000')",
-        "view map",
-        "cbrange [0:1]",
-        "cblabel 'Intensity' font 'Times New Roman,24' offset 3,0",
+        "bmargin 6",
+        "key font 'Times New Roman,18'",
+        "key spacing 1.4",
     ],
 )
+
+print(f"処理が完了しました。出力は '{outputfile}' に保存されました。")

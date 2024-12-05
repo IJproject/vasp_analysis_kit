@@ -31,9 +31,7 @@ else:
 
 # py4vaspでデータの解析
 calc = py4vasp.Calculation.from_path(".")
-print(calc.dos)
 all_data = calc.dos.to_dict(selection=selection)
-print(all_data.items())
 data = {key: value for key, value in all_data.items() if key not in ["fermi_energy"]}
 
 # # データの書き出し

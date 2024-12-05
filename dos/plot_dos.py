@@ -82,12 +82,15 @@ gp.plot(
     _set=[
         "xtics font 'Times New Roman,20' offset 0,-1",
         "noytics",
-        "xlabel 'E - E_{VBM}  (eV)' font 'Times New Roman,24' offset 0,-2",
-        "ylabel 'DOS  (eV^{-1})' font 'Times New Roman,24' offset -1,0",
+        "xlabel 'E - E_F  (eV)' font 'Times New Roman,24' offset 0,-2",
+        "ylabel 'DOS  (/eV)' font 'Times New Roman,24' offset -1,0",
         "lmargin 8",
         "rmargin 4",
         "tmargin 2",
         "bmargin 6",
+        "key font 'Times New Roman,18'",
+        "key center top",
+        "key spacing 1.4",
     ],
 )
 

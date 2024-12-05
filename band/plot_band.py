@@ -120,7 +120,7 @@ gp.plot(
     _set=[
         f"xtics ({', '.join(xtics_labels)}) font 'Times New Roman,20' offset 0,-1",
         "ytics font 'Times New Roman,20'",
-        "ylabel 'E - E_f  (eV)' font 'Times New Roman,24' offset -1,0",
+        "ylabel 'E - E_F  (eV)' font 'Times New Roman,24' offset -1,0",
         "lmargin 12",
         "rmargin 4",
         "tmargin 2",
