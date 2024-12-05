@@ -1,4 +1,4 @@
-## List of Scripts
+# List of Scripts
 
 These programs uses DENSITYTOOL(https://github.com/llodeiro/DensityTool).
 
@@ -9,15 +9,15 @@ These programs uses DENSITYTOOL(https://github.com/llodeiro/DensityTool).
 
 ※ These programs have been created for layered materials. (perpendicular to c-axis direction)
 
-### Plotting LDOS Graph
+## Plotting LDOS Graph
 
-#### Required files
+### Required files
 
 - (folder)/LDOS.R3.*.dat
 - (folder)/DENSITYTOOL.IN
 - POSCAR
 
-#### Example
+### Example
 
 ```shell
 python plot_ldos.py -d <folder_name>
@@ -27,15 +27,15 @@ python plot_ldos.py -d <folder_name> -o <output_file_name>
 #  python plot_ldos.py -d ldos-data -o ldos.txt
 ```
 
-### Plotting partial LDOS Graph
+## Plotting partial LDOS Graph
 
-#### Required files
+### Required files
 
 - (folder)/LDOS.R3.*.dat
 - (folder)/DENSITYTOOL.IN
 - POSCAR
 
-#### Example
+### Example
 
 ```shell
 python plot_partial_mean_ldos.py -d <folder_name>
@@ -48,7 +48,7 @@ python plot_partial_mean_ldos.py -d <folder_name> -o <output_file_name>
 #  python plot_partial_mean_ldos.py -d ldos-data -o ldos.png
 ```
 
-### Sample
+## Sample
 
 用意したファイルの説明
 実行方法

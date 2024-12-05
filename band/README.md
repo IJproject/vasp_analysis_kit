@@ -1,18 +1,18 @@
-## List of Scripts
+# List of Scripts
 
 | File Name            | Function                                                               |
 | :------------------- | :--------------------------------------------------------------------- |
 | convert_band.py      | Generating a text file for plotting band structure                     |
 | plot_band.py         | Ploting the band structure                                             |
 
-### Generating Text File
+## Generating Text File
 
-#### Required files
+### Required files
 
 - EIGENVAL
 - KPOINTS
 
-#### Example
+### Example
 
 ```shell
   python convert_band.py
@@ -21,13 +21,13 @@
   # python convert_band.py -f band.txt
 ```
 
-### Plotting Graph
+## Plotting Graph
 
-#### Required files
+### Required files
 
 - textfile made by `convert_band.py`
 
-#### Example
+### Example
 
 ```shell
   python plot_band.py -i <text_data_file_name>
@@ -46,7 +46,7 @@
   # python plot_band.py -i band.txt -y -1 1
 ```
 
-### Sample
+## Sample
 
 用意したファイルの説明
 実行方法

@@ -1,4 +1,4 @@
-## List of Scripts
+# List of Scripts
 
 | File Name            | Function                                                               |
 | :------------------- | :--------------------------------------------------------------------- |
@@ -7,19 +7,19 @@
 
 ※ These programs have been created for layered materials. (perpendicular to c-axis direction)
 
-### Generating Text File
+## Generating Text File
 
 Not yet created.
 
-### Plotting Graph
+## Plotting Graph
 
-#### Required files
+### Required files
 
 - textfile made by `convert_workfunc.py`
 - OUTCAR
 - POSCAR
 
-#### Example
+### Example
 
 ```shell
   python plot_workfunc.py -i <text_data_file_name>
@@ -35,7 +35,7 @@ Not yet created.
   # python plot_workfunc.py -i workfunc.txt -y -5 5
 ```
 
-### Sample
+## Sample
 
 用意したファイルの説明
 実行方法

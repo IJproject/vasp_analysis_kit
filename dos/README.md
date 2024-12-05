@@ -1,13 +1,13 @@
-## List of Scripts
+# List of Scripts
 
 | File Name            | Function                                                               |
 | :------------------- | :--------------------------------------------------------------------- |
 | convert_dos.py       | Generating a text file for plotting DOS                                |
 | plot_dos.py          | Ploting the DOS                                                        |
 
-### Generating Text File
+## Generating Text File
 
-#### Example
+### Example
 
 ```shell
   python convert_dos.py
@@ -21,9 +21,9 @@
   # You can see more options from py4vasp doc. (https://www.vasp.at/py4vasp/latest/calculation/dos/)
 ```
 
-### Plotting Graph
+## Plotting Graph
 
-#### Example
+### Example
 
 ```shell
   python plot_dos.py -i <text_data_file_name>
@@ -39,7 +39,7 @@
   # python plot_dos.py -i dos.txt -y 0 20
 ```
 
-### Sample
+## Sample
 
 用意したファイルの説明
 実行方法
