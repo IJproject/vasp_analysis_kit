@@ -1,10 +1,15 @@
 ## List of Scripts
 
+| File Name            | Function                                                               |
+| :------------------- | :--------------------------------------------------------------------- |
+| convert_dos.py       | Generating a text file for plotting DOS                                |
+| plot_dos.py          | Ploting the DOS                                                        |
+
 ### Generating Text File
 
 #### Example
 
-```
+```shell
   python convert_dos.py
 
   python convert_dos.py -f <output_file_name>
@@ -13,14 +18,14 @@
   python convert_dos.py -s <DOS_option>
   # python convert_dos.py -s total,Bi,Se
   # python convert_dos.py -s s(Bi,Se),p(Bi,Se)
-  # You can see more options from this link. (https://www.vasp.at/py4vasp/latest/calculation/dos/)
+  # You can see more options from py4vasp doc. (https://www.vasp.at/py4vasp/latest/calculation/dos/)
 ```
 
 ### Plotting Graph
 
 #### Example
 
-```
+```shell
   python plot_dos.py -i <text_data_file_name>
   # python plot_dos.py -i dos.txt
 

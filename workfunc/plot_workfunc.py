@@ -1,5 +1,3 @@
-# legend設定と、格子ベクトルでの規格化はできていない
-
 import argparse
 import gnuplotlib as gp
 import numpy as np
@@ -93,8 +91,8 @@ gp.plot(
         "xtics font 'Times New Roman,20' offset 0,-1",
         "ytics font 'Times New Roman,20'",
         "xlabel 'z  (\305)' font 'Times New Roman,24' offset 0,-2",
-        "ylabel 'V_z - E_f   (eV)' font 'Times New Roman,24' offset -1,0",
-        "lmargin 12",
+        "ylabel 'V_z - E_F  (eV)' font 'Times New Roman,24' offset -1,0",
+        "lmargin 14",
         "rmargin 4",
         "tmargin 2",
         "bmargin 6",
